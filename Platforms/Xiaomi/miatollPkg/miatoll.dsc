@@ -103,3 +103,15 @@
   # ACPI Tables
   #
   miatoll/AcpiTables.inf
+
+  #
+  # UniXNU: boot menu, boot option registration, the payload RAM disk (the boot image's
+  # ramdisk, handed over through the FDT /chosen initrd properties) and the XNU loader.
+  #
+  UniXNUPkg/Application/UniXNU/UniXNU.inf
+  UniXNUPkg/Driver/UniXNUDxe/UniXNUDxe.inf
+  UniXNUPkg/Driver/UniXNURamDiskDxe/UniXNURamDiskDxe.inf
+  DarwinBootPkg/Driver/DarwinBoot.inf
+
+[LibraryClasses]
+  UniXNULib|UniXNUPkg/Library/UniXNULib/UniXNULib.inf
