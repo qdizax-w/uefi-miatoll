@@ -106,6 +106,7 @@
   #
   ConfigurationMapLib|miatollPkg/Library/ConfigurationMapLib/ConfigurationMapLib.inf
 
+[Components]
   #
   # UniXNU: boot menu, boot option registration, the payload RAM disk and the XNU loader.
   #
