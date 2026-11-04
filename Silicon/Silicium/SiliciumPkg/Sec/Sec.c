@@ -18,6 +18,9 @@
 
 #include "Sec.h"
 
+// First argument (x0) of the previous stage, saved by ModuleEntryPoint.S
+extern UINT64  gSecEntryArg0;
+
 #ifndef MDEPKG_NDEBUG
 STATIC
 VOID
@@ -198,6 +201,14 @@ SecMain (
   Status = PlatformPeim ();
   if (EFI_ERROR (Status)) {
     return;
+  }
+
+  // Pass on what the previous stage handed over in x0 (a DT address for a Linux-style
+  // boot loader), so UniXNURamDiskDxe can find the initrd.
+  {
+    UINT64  EntryArg = gSecEntryArg0;
+
+    BuildGuidDataHob (&gSiliciumEntryArgHobGuid, &EntryArg, sizeof (EntryArg));
   }
 
   // Run Library Cconstructors

@@ -13,6 +13,9 @@
 .set CTRL_SPAN_BIT, (1 << 23)
 
 ASM_FUNC (_ModuleEntryPoint)
+  // Keep x0, the DT address a Linux-style boot loader hands over.
+  mov   x20, x0
+
   // Do Platform Specific Initialization
   bl    ASM_PFX (PlatformAssemblyInitialize)
 
@@ -27,6 +30,10 @@ ASM_FUNC (_ModuleEntryPoint)
 
   // Invalidate TLB
   bl    ASM_PFX (ArmInvalidateTlb)
+
+  // Store it now that the caches are off, so nothing later invalidates it.
+  adr   x1, ASM_PFX (gSecEntryArg0)
+  str   x20, [x1]
 
   // Disable SPAN
   EL1_OR_EL2 (x0)
@@ -78,3 +85,8 @@ ASM_PFX (MainEntryPoint):
 
   // Jump to C Code
   blr   x2
+
+  .balign 8
+  .global ASM_PFX (gSecEntryArg0)
+ASM_PFX (gSecEntryArg0):
+  .quad 0
