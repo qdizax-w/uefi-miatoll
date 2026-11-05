@@ -27,6 +27,11 @@ gMemoryDescriptor[] = {
   {"Log Buffer",        0x9FFF7000, 0x00008000, AddMem, SYS_MEM, SYS_MEM_CAP, RtData, WRITE_BACK_XN},
   {"Info Blk",          0x9FFFF000, 0x00001000, AddMem, SYS_MEM, SYS_MEM_CAP, RtData, WRITE_BACK_XN},
 
+  // ABL's device tree and the payload ramdisk. Without a descriptor nothing maps this range
+  // before RamManagerDxe, and RamManagerDxe would then hand it out as free memory. It starts
+  // past cdsp_sec_regions (ends 0xA1200000) and ends with the first RAM partition.
+  {"ABL Handoff",       0xA1200000, 0x1BA00000, AddMem, SYS_MEM, SYS_MEM_CAP, Reserv, WRITE_BACK_XN},
+
   // Other Memory Regions
   {"AOP_SS_MSG_RAM",    0x0C300000, 0x00100000, NoHob,  MMAP_IO, INITIALIZED, Conv,  NS_DEVICE},
   {"IMEM Base",         0x14680000, 0x0002B000, NoHob,  MMAP_IO, INITIALIZED, Conv,  NS_DEVICE},
