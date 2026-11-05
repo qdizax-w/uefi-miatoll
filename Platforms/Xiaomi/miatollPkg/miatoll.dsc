@@ -23,7 +23,10 @@
   BUILD_TARGETS                  = RELEASE|DEBUG
   SKUID_IDENTIFIER               = DEFAULT
   FLASH_DEFINITION               = miatollPkg/miatoll.fdf
-  USE_CUSTOM_DISPLAY_DRIVER      = 1
+  # 0: SimpleFbDxe on the splash buffer ABL leaves scanning out. Qualcomm's DisplayDxe
+  # registers an ExitBootServices event that powers the panel and the MDP clocks down,
+  # and the kernel console needs them left running.
+  USE_CUSTOM_DISPLAY_DRIVER      = 0
 
 !include RennellPkg/RennellPkg.dsc.inc
 
